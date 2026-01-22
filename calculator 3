@@ -1,0 +1,46 @@
+import tkinter as tk
+
+root=tk.Tk()
+title=root.title("KKR HOEREOPDRACHT")
+root.geometry("295x315")
+
+entry=tk.Entry(root)
+entry.grid(row=1,column=1,ipadx=40)
+
+getal1=tk.Button(root,text="1")
+getal1.grid(row=3,column=0,ipadx=30,ipady=30)
+
+getal2=tk.Button(root,text="2")
+getal2.grid(row=3,column=1,ipadx=30,ipady=30)
+
+getal3=tk.Button(root,text="3")
+getal3.grid(row=3,column=2,ipadx=30,ipady=30)
+
+getal4=tk.Button(root,text="4")
+getal4.grid(row=4,column=0,ipadx=30,ipady=30)
+
+getal5=tk.Button(root,text="5")
+getal5.grid(row=4,column=1,ipadx=30,ipady=30)
+
+getal6=tk.Button(root,text="6")
+getal6.grid(row=4,column=2,ipadx=30,ipady=30)
+
+getal7=tk.Button(root,text="7")
+getal7.grid(row=5,column=0,ipadx=30,ipady=30)
+
+getal8=tk.Button(root,text="8")
+getal8.grid(row=5,column=1,ipadx=30,ipady=30)
+
+getal9=tk.Button(root,text="9")
+getal9.grid(row=5,column=2,ipadx=30,ipady=30)
+
+#laatste rij
+komma=tk.Button(root,text=".")
+komma.grid(row=6,column=0,ipadx=30,ipady=30)
+
+getal0=tk.Button(root,text="0")
+getal0.grid(row=6,column=1,ipadx=30,ipady=30)
+
+gelijkheidsteken=tk.Button(root,text="=")
+gelijkheidsteken.grid(row=6,column=2,ipadx=30,ipady=30)
+root.mainloop()
