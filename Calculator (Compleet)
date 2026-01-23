@@ -1,0 +1,108 @@
+import tkinter as tk
+
+root=tk.Tk()
+title=root.title("KKR HOEREOPDRACHT")
+root.geometry("295x350")
+
+
+#commands voor berekeningen
+def Click(getal):
+    entry.insert(tk.END,str(getal))
+
+def C():
+    entry.delete(0,tk.END)
+
+def Vermenigvuldigen():
+    global n1,wisk
+    n1=float(entry.get())
+    entry.delete(0,tk.END)
+    wisk="*"
+
+def Delen():
+    global n1,wisk
+    n1=float(entry.get())
+    entry.delete(0,tk.END)
+    wisk="/"
+
+def Verminderen():
+    global n1,wisk
+    n1=float(entry.get())
+    entry.delete(0,tk.END)
+    wisk="-"
+
+def Vermeerderen():
+    global wisk, n1
+    n1 = float(entry.get())
+    entry.delete(0, tk.END)
+    wisk = '+'
+
+def Uitkomst():
+    global wisk, n1
+    n2 = float(entry.get())
+    entry.delete(0, tk.END)
+    if wisk=="*":
+        entry.insert(0,n1 * n2)
+    elif wisk=="/":
+        entry.insert(0,n1 / n2)
+    elif wisk=="+":
+        entry.insert(0,n1 + n2)
+    elif wisk== "-":
+        entry.insert(0,n1 - n2)
+
+
+entry=tk.Entry(root)
+entry.grid(row=0,column=1,columnspan=3,ipadx=40)
+
+getal1=tk.Button(root,text="1",command=lambda: Click(1))
+getal1.grid(row=3,column=1,ipadx=28,ipady=20)
+
+getal2=tk.Button(root,text="2",command=lambda: Click(2))
+getal2.grid(row = 3, column = 2,ipadx=28,ipady=20)
+
+getal3=tk.Button(root,text="3",command=lambda: Click(3))
+getal3.grid(row=3,column=3,ipadx=28,ipady=20)
+
+getal4=tk.Button(root,text="4",command=lambda: Click(4))
+getal4.grid(row=2,column=1,ipadx=28,ipady=20)
+
+getal5=tk.Button(root,text="5",command=lambda: Click(5))
+getal5.grid(row=2,column=2,ipadx=28,ipady=20)
+
+getal6=tk.Button(root,text="6",command=lambda: Click(6))
+getal6.grid(row=2,column=3,ipadx=28,ipady=20)
+
+getal7=tk.Button(root,text="7",command=lambda: Click(7))
+getal7.grid(row=1,column=1,ipadx=28,ipady=20)
+
+getal8=tk.Button(root,text="8",command=lambda: Click(8))
+getal8.grid(row=1,column=2,ipadx=28,ipady=20)
+
+getal9=tk.Button(root,text="9",command=lambda: Click(9))
+getal9.grid(row=1,column=3,ipadx=28,ipady=20)
+
+#laatste rij
+komma=tk.Button(root,text=".")
+komma.grid(row=6,column=1,ipadx=28,ipady=20)
+
+getal0=tk.Button(root,text="0",command=lambda: Click(0))
+getal0.grid(row=6,column=2,ipadx=28,ipady=20)
+
+gelijkheidsteken=tk.Button(root,text="=",command=Uitkomst)
+gelijkheidsteken.grid(row=6,column=3,ipadx=28,ipady=20)
+
+#berekeningen
+plus=tk.Button(root,text="+",command=Vermeerderen)
+plus.grid(row=1,column=4,ipadx=28,ipady=20)
+
+min=tk.Button(root,text="-",command=Verminderen)
+min.grid(row=2,column=4,ipadx=28,ipady=20)
+
+delen=tk.Button(root,text="/",command=Delen)
+delen.grid(row=3,column=4,ipadx=28,ipady=20)
+
+maal=tk.Button(root,text='*',command=Vermenigvuldigen)
+maal.grid(row=6,column=4,ipadx=28,ipady=20)
+
+knopc=tk.Button(root,text="C",command=C)
+knopc.grid(row=7,column=2,ipadx=28,ipady=20)
+root.mainloop()
