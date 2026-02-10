@@ -27,6 +27,18 @@ def BerekeningBTW():
     entry_totaal.delete(0,END)
     entry_totaal.insert(0,str(totaal))
 
+def Clear():
+    Bedrijfsnaam_contactpersoon_entry.delete(0, END)
+    Adres_entry.delete(0, END)
+    BTW_ondernemingsnummer_entry.delete(0, END)
+    factuurnummer_entry.delete(0, END)
+    factuurdatum_entry.delete(0, END)
+    projectcode_entry.delete(0, END)
+    datum_entry.delete(0, END)
+    tariefEenheid_entry.delete(0, END)
+    aantal_entry.delete(0, END)
+
+
 
 
 
