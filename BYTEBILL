@@ -1,0 +1,35 @@
+import tkinter
+from tkinter import *
+from tkinter import messagebox
+
+root=Tk()
+root.geometry("500x500")
+root.title("Bytebill")
+
+#variabele "keuze" voor radiobutton
+keuze=StringVar()
+
+#commands
+def BerekeningBTW():
+    if entry_BTW.get() == "":
+        messagebox.showerror("Error","Kies een BTW percentage.")
+        elif entry_basisbedrag.get() == "":
+            messagebox.showerror("Error","Kies een basisbedrag.")
+    else:
+        basisbedrag=float(entry_basisbedrag.get())
+        BTW=round(basisbedrag*float(keuze.get()),2)
+        totaal=round(basisbedrag+BTW,2)
+
+
+    entry_btw.delete(0, END)
+    entry_btw.insert(0,str(BTW))
+
+    entry_totaal.delete(0,END)
+    entry_totaal.insert(0,str(totaal))
+
+
+
+
+
+
+root.mainloop()
