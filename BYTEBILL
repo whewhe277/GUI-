@@ -11,7 +11,7 @@ keuze=StringVar(value="BTW")
 
 #commands
 def BerekeningBTW():
-    if entry_BTW.get() == "":
+    if keuze.get() == "":
         messagebox.showerror("Error","Kies een BTW percentage.")
     elif entry_basisbedrag.get() == "":
             messagebox.showerror("Error","Kies een basisbedrag.")
@@ -68,6 +68,18 @@ btw_dropdown= ttk.Combobox(root, textvariable=keuze, values=["0%", "6%", "21%"],
 btw_dropdown.pack(pady=20)
 
 
+
+
+
+
+
+
+
+
+
+
+
+root.mainloop()
 
 
 
