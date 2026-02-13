@@ -1,20 +1,22 @@
 import tkinter
 from tkinter import *
 from tkinter import messagebox
-
+from tkinter import ttk
 root=Tk()
 root.geometry("500x500")
 root.title("Bytebill")
 
 #variabele "keuze" voor radiobutton
-keuze=StringVar()
+keuze=StringVar(value="BTW")
 
 #commands
 def BerekeningBTW():
     if entry_BTW.get() == "":
         messagebox.showerror("Error","Kies een BTW percentage.")
-        elif entry_basisbedrag.get() == "":
+    elif entry_basisbedrag.get() == "":
             messagebox.showerror("Error","Kies een basisbedrag.")
+    elif not entry_basisbedrag.get().isdigit():
+            messagebox.showerror("Error","Controleer of er geen letters bevatten in de ingevoerde waarde.")
     else:
         basisbedrag=float(entry_basisbedrag.get())
         BTW=round(basisbedrag*float(keuze.get()),2)
@@ -22,21 +24,54 @@ def BerekeningBTW():
 
 
     entry_btw.delete(0, END)
-    entry_btw.insert(0,str(BTW))
+    entry_btw.insert(0,str(BTW)+"€")
 
     entry_totaal.delete(0,END)
-    entry_totaal.insert(0,str(totaal))
+    entry_totaal.insert(0,str(totaal)+"€")
 
-def Clear():
-    Bedrijfsnaam_contactpersoon_entry.delete(0, END)
-    Adres_entry.delete(0, END)
-    BTW_ondernemingsnummer_entry.delete(0, END)
-    factuurnummer_entry.delete(0, END)
-    factuurdatum_entry.delete(0, END)
-    projectcode_entry.delete(0, END)
-    datum_entry.delete(0, END)
-    tariefEenheid_entry.delete(0, END)
-    aantal_entry.delete(0, END)
+def ClearKlantgegevens():
+    antwoord=messagebox.askyesno("Bevestiging","Bent u zeker dat u de klantgegevens wilt verwijderen?")
+    if antwoord == "ja":
+        Bedrijfsnaam_entry.delete(0, END)
+        contactpersoon_entry.delete(0, END)
+        Straat_entry.delete(0, END)
+        huisnummer_entry.delete(0, END)
+        postcode_entry.delete(0, END)
+        Stad_entry.delte(0,END)
+        BTW_ondernemingsnummer_entry.delete(0, END)
+    else:
+        return
+
+def ClearFactuurGegevens():
+    antwoord = messagebox.askyesno("Bevestiging", "Bent u zeker dat u de factuurgegevens wilt verwijderen?")
+    if antwoord == "ja":
+        factuurnummer_entry.delete(0, END)
+        factuurdatum_entry.delete(0, END)
+        projectcode_entry.delete(0, END)
+    else:
+        return
+
+def ClearFactuurlijn():
+    antwoord=messagebox.askyesno("Bevestiging","Bent u zeker dat u de factuurlijn wilt verwijderen?")
+    if antwoord == "ja":
+        datum_Entry.delete(0, END)
+        omschrijving_Entry.delete(0, END)
+        aantal_entry.delete(0, END)
+        tarief_Entry.delete(0, END)
+        BTW_RB.set("")
+        lijnbedrag_entry.delete(0, END)
+    else:
+        return
+
+#combobox voor btw percentage te kiezen
+btw_dropdown= ttk.Combobox(root, textvariable=keuze, values=["0%", "6%", "21%"], state="readonly")
+btw_dropdown.pack(pady=20)
+
+
+
+
+
+
 
 
 
