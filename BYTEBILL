@@ -2,6 +2,8 @@ import tkinter
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter import filedialog
+from reportlab.pdfgen import canvas
 
 
 root=Tk()
@@ -12,6 +14,8 @@ root.title("Bytebill")
 keuze=StringVar(value="BTW")
 
 #commands
+def info_about():
+    messagebox.showinfo("Info","Dit is een factuur programma die facturen opmaakt op uurbasis en je onkosten.")
 def BerekeningBTW():
     if keuze.get() == "":
         messagebox.showerror("Error","Kies een BTW percentage.")
@@ -32,8 +36,10 @@ def BerekeningBTW():
     entry_totaal.insert(0,str(totaal)+"€")
 
 def ClearKlantgegevens():
-    antwoord=messagebox.askyesno("Bevestiging","Bent u zeker dat u de klantgegevens wilt verwijderen?")
-    if antwoord == "ja":
+    antwoord=messagebox.askyesno("Bevestiging","Bent u zeker dat u de factuurlijn wilt verwijderen?")
+    if antwoord=="Nee":
+        return
+    else:
         Bedrijfsnaam_entry.delete(0, END)
         contactpersoon_entry.delete(0, END)
         Straat_entry.delete(0, END)
@@ -41,56 +47,100 @@ def ClearKlantgegevens():
         postcode_entry.delete(0, END)
         Stad_entry.delte(0,END)
         BTW_ondernemingsnummer_entry.delete(0, END)
-    else:
-        return
+
 
 def ClearFactuurGegevens():
-    antwoord = messagebox.askyesno("Bevestiging", "Bent u zeker dat u de factuurgegevens wilt verwijderen?")
-    if antwoord == "ja":
+    antwoord = messagebox.askyesno("Bevestiging", "Bent u zeker dat u de factuurlijn wilt verwijderen?")
+    if antwoord == "Nee":
+        return
+    else:
         factuurnummer_entry.delete(0, END)
         factuurdatum_entry.delete(0, END)
         projectcode_entry.delete(0, END)
-    else:
-        return
 
 def ClearFactuurlijn():
     antwoord=messagebox.askyesno("Bevestiging","Bent u zeker dat u de factuurlijn wilt verwijderen?")
-    if antwoord == "ja":
+    if antwoord=="Nee":
+        return
+    else:
         datum_Entry.delete(0, END)
         omschrijving_Entry.delete(0, END)
         aantal_entry.delete(0, END)
         tarief_Entry.delete(0, END)
         BTW_RB.set("")
         lijnbedrag_entry.delete(0, END)
-    else:
+
+#Clear all functie voor de "new" optie in de menubar
+def Clear_all():
+    antwoord = messagebox.askyesno("Bevestiging", "Bent u zeker dat u de factuurlijn wilt verwijderen?")
+    if antwoord == "Nee":
         return
+    else:
+        ClearFactuurlijn()
+        ClearKlantgegevens()
+        ClearFactuurGegevens()
+
+
+#commands voor file te saven
+def Save_as():
+    pad=filedialog.asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF files","*.pdf")])
+    if not pad:
+        return
+    try:
+        c=canvas.Canvas(pad)
+        #data in pdf file noteren
+        #factuurgegevens
+        c.drawstring(50, 800, "ByteBill - FACTUUR")
+        c.drawString(50, 770, f"Factuurnummer:{factuurnummer_entry.get()}")
+        c.drawString(50, 750, f"Factuurdatum: {factuurdatum_entry.get()}")
+
+        #klantgegevens
+        c.drawString(50, 720, f"Klant:{Bedrijfsnaam_entry.get()}")
+        c.drawString(50, 700, f"BTW-nummer:{BTW_ondernemingsnummer_entry.get()}")
+
+        #lijnfactuur
+        y=650
+        for line in lines:
+            c.drawString(50, y, f"{line['datum']}  {line['omschrijving']}  {line['aantal']}  {line['prijs']}  {line['btw']}%")
+        c.save()
+
+        #subtotaal etc
+        c.drawString(50, y - 20, f"Subtotaal: € {basisbedrag:.2f}")
+        c.drawString(50, y - 40, f"BTW totaal: € {BTW:.2f}")
+        c.drawString(50, y - 60, f"Totaal incl. BTW: € {totaal:.2f}")
+        messagebox.showinfo("Succes","Factuur succesvol opgeslagen als PDF!")
+    except Exception as e:
+        messagebox.showerror("Fout","opslaan is mislukt:\n",e)
+
 
 #combobox voor btw percentage te kiezen
 btw_dropdown= ttk.Combobox(root, textvariable=keuze, values=["0%", "6%", "21%"], state="readonly")
 btw_dropdown.pack(pady=20)
 
+#Menubar
+menubar=Menu(root)
+root.config(menu=menubar)
 
+file_menu=Menu(menubar)
+menubar.add_cascade(label="File",menu=file_menu)
+file_menu.add_command(label="Save",command=Save_as)
 
+edit_menu=Menu(menubar)
+menubar.add_cascade(label="Edit",menu=edit_menu)
+edit_menu.add_command(label="New",command=Clear_all)
 
-
-
-
-
-
-
-
-
-
-root.mainloop()
-
-
-
-
-
-
-
-
-
-
+about_menu=Menu(menubar)
+menubar.add_cascade(label="About",menu=about_menu)
+about_menu.add_command(label="Info",command=info_about)
 
 root.mainloop()
+
+#TE DOEN:
+LABEL ENTRYS ETC TOEVOEGEN AAN DE Code
+INFO_ABOUT FINETUNEN
+FILEDIALOG VOOR SAVE/SAVE AS FINETUNEN/AFMAKEN
+CODE OVERZICHTELIJKER MAKEN
+
+#WAT HEB IK VERANDERD 15/02:
+MENUBAR TOEGEVOEGD
+SAVEN IN PDF FILE COMMANDO AANGEMAAKT
